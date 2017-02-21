@@ -17,17 +17,19 @@
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="Open" />
+                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="Quit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
@@ -36,12 +38,12 @@
       </MenuBar>
    </top>
    <left>
-      <VBox fx:id="shapeView" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="shapeView" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <VBox fx:id="propertiesView" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="propertiesView" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <Canvas fx:id="canvas" height="375.0" width="402.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="780.0" width="1000.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
