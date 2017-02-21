@@ -7,4 +7,6 @@ import Model.shapes.Shape;
  */
 public interface IDrawing {
     void addShape(Shape shape);
+    void removeShape(Shape shape);
+
 }

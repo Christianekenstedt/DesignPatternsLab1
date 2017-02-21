@@ -9,9 +9,4 @@ public class Circle extends Shape {
         type = "Circle";
         setId(id);
     }
-
-    @Override
-    public Circle clone() {
-        return clone();
-    }
 }

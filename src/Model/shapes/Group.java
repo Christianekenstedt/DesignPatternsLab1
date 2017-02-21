@@ -9,9 +9,4 @@ public class Group extends Shape  {
         type = "Group";
         setId(id);
     }
-
-    @Override
-    public Group clone() {
-        return clone();
-    }
 }

@@ -25,6 +25,16 @@ public class ShapeCache {
         shapeCache.put("4", group);
     }
 
+    public ArrayList<Shape> getShapes(){
+        ArrayList<Shape> shapes = new ArrayList<>();
+
+        for(Shape s : shapeCache.values()){
+            shapes.add(s.clone());
+        }
+
+        return shapes;
+    }
+
     public Shape getShape(String id){
         Shape shape = shapeCache.get(id);
         return shape.clone();

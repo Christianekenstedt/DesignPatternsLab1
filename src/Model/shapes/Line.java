@@ -9,9 +9,4 @@ public class Line extends Shape  {
         type = "Line";
         setId(id);
     }
-
-    @Override
-    public Line clone() {
-        return clone();
-    }
 }

@@ -10,8 +10,14 @@ public abstract class Shape implements Cloneable{
     protected String type;
     private Color color;
 
-    public abstract Shape clone();
-
+    public Shape clone(){
+        try {
+            return (Shape)super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public String getId(){
         return id;

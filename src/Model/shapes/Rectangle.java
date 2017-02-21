@@ -9,9 +9,4 @@ public class Rectangle extends Shape  {
         type = "Rectangle";
         setId(id);
     }
-
-    @Override
-    public Rectangle clone() {
-        return clone();
-    }
 }
