@@ -1,5 +1,6 @@
 package Model;
 
+import Model.shapes.ShapeCache;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +10,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     IDrawing drawing = null;
-    ShapeFactory shapeFactory = new ShapeFactory();
+    ShapeCache shapeCache = new ShapeCache();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
