@@ -1,12 +1,18 @@
 package Model.shapes;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  * Created by Anton on 2017-02-21.
  */
 public class Group extends Shape  {
 
-    public Group(String id){
+    public Group(){
         type = "Group";
-        setId(id);
+    }
+
+    @Override
+    public void drawShape(GraphicsContext graphicsContext) {
+
     }
 }

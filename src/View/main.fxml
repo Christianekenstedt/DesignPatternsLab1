@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<BorderPane fx:controller="Controller.Controller" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller">
    <opaqueInsets>
       <Insets />
    </opaqueInsets>
@@ -38,12 +38,16 @@
       </MenuBar>
    </top>
    <left>
-      <VBox fx:id="shapeView" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER" />
+      <VBox fx:id="shapeView" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="17.0" prefWidth="106.0" text="Tools" />
+            <Button mnemonicParsing="false" onAction="#selectButtonClicked" prefHeight="25.0" prefWidth="118.0" text="Select" />
+         </children></VBox>
    </left>
    <right>
       <VBox fx:id="propertiesView" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <Canvas fx:id="canvas" height="780.0" width="1000.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="780.0" onMousePressed="#drawShapeStart" onMouseReleased="#drawShapeDone" width="1000.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

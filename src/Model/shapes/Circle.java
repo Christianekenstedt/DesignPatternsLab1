@@ -1,12 +1,18 @@
 package Model.shapes;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  * Created by Anton on 2017-02-21.
  */
 public class Circle extends Shape {
 
-    public Circle(String id){
+    public Circle(){
         type = "Circle";
-        setId(id);
+    }
+
+    @Override
+    public void drawShape(GraphicsContext graphicsContext) {
+
     }
 }

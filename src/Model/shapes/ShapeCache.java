@@ -12,16 +12,20 @@ public class ShapeCache {
     Hashtable<String, Shape> shapeCache  = new Hashtable<String, Shape>();
 
     public ShapeCache(){
-        Circle circle = new Circle("1");
+        Circle circle = new Circle();
+        circle.setId("1");
         shapeCache.put("1", circle);
 
-        Rectangle rect = new Rectangle("2");
+        Rectangle rect = new Rectangle();
+        rect.setId("2");
         shapeCache.put("2", rect);
 
-        Line line = new Line("3");
+        Line line = new Line();
+        line.setId("3");
         shapeCache.put("3", line);
 
-        Group group = new Group("4");
+        Group group = new Group();
+        group.setId("4");
         shapeCache.put("4", group);
     }
 
