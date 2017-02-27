@@ -12,7 +12,10 @@ public abstract class Shape implements Cloneable{
 
     private String id;
     protected String type;
+
+
     private Color color;
+    private double lineWidth;
 
     public Shape clone(){
         try {
@@ -72,5 +75,21 @@ public abstract class Shape implements Cloneable{
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public double getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(double lineWidth) {
+        this.lineWidth = lineWidth;
     }
 }

@@ -1,5 +1,7 @@
 package Controller;
 import Model.IDrawing;
+import Model.shapes.FillableShape;
+import Model.shapes.Rectangle;
 import Model.shapes.Shape;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,8 +9,10 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class Controller {
@@ -17,7 +21,6 @@ public class Controller {
     private Shape selectedShape;
 
     private double startX, startY;
-
 
 
     @FXML
@@ -98,6 +101,27 @@ public class Controller {
 
             Shape shape = selectedShape.clone();
 
+            //TODO:do width/pos conversions here instead
+            /**
+             * if(getWidth() < 0){
+             newX = getX() + getWidth();
+             newW = Math.abs(getWidth());
+             }
+             else{
+             newX = getX();
+             newW = getWidth();
+             }
+
+             if(getHeight() < 0){
+             newY = getY() + getHeight();
+             newH = Math.abs(getHeight());
+             }
+             else{
+             newY = getY();
+             newH = getHeight();
+             }
+             */
+
             shape.setX(startX);
             shape.setY(startY);
             shape.setWidth(width);
@@ -110,6 +134,59 @@ public class Controller {
         }
     }
 
+    void viewPropertiesOf(Shape shape){
+
+        propertiesView.getChildren().clear();
+
+        //properties for all shapes
+
+        HBox colorBox = new HBox();
+        Label colorLabel = new Label();
+        colorLabel.setText("Color");
+        colorLabel.setMinWidth(propertiesView.getWidth()/2);
+        ColorPicker cp = new ColorPicker();
+        cp.setPromptText("Color");
+        colorBox.getChildren().add(colorLabel);
+        colorBox.getChildren().add(cp);
+
+
+        HBox lineBox = new HBox();
+        Label lineWidthLabel = new Label();
+        lineWidthLabel.setText("Line width");
+        lineWidthLabel.setMinWidth(propertiesView.getWidth()/2);
+        TextField lineWidthField = new TextField();
+        lineBox.getChildren().add(lineWidthLabel);
+        lineBox.getChildren().add(lineWidthField);
+
+
+        propertiesView.getChildren().add(colorBox);
+        propertiesView.getChildren().add(lineBox);
+
+        //fillable shapes
+
+        if(shape instanceof FillableShape){
+
+            HBox fillColorBox = new HBox();
+            Label fillColorLabel = new Label();
+            fillColorLabel.setText("Fill color");
+            fillColorLabel.setMinWidth(propertiesView.getWidth()/2);
+            ColorPicker fcp = new ColorPicker();
+            fcp.setPromptText("Fill Color");
+            fillColorBox.getChildren().add(fillColorLabel);
+            fillColorBox.getChildren().add(fcp);
+
+            HBox fillBox = new HBox();
+            Label fillLabel = new Label();
+            fillLabel.setText("Fill");
+            fillLabel.setMinWidth(propertiesView.getWidth()/2);
+            CheckBox cb = new CheckBox();
+            fillBox.getChildren().add(fillLabel);
+            fillBox.getChildren().add(cb);
+
+            propertiesView.getChildren().add(fillColorBox);
+            propertiesView.getChildren().add(fillBox);
+        }
+    }
 
     public void setDrawing(IDrawing drawing){
         this.drawing = drawing;
@@ -137,7 +214,7 @@ public class Controller {
                 @Override
                 public void handle(MouseEvent event) {
                     selectedShape = s;
-
+                    viewPropertiesOf(s);
                 }
             });
         }

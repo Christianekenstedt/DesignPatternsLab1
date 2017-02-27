@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 /**
  * Created by Anton on 2017-02-21.
  */
-public class Circle extends Shape {
+public class Circle extends FillableShape {
 
     public Circle(){
         type = "Circle";

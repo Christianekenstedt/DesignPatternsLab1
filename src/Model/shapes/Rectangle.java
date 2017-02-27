@@ -5,17 +5,10 @@ import javafx.scene.canvas.GraphicsContext;
 /**
  * Created by Anton on 2017-02-21.
  */
-public class Rectangle extends Shape  {
-
-    private boolean fill;
+public class Rectangle extends FillableShape  {
 
     public Rectangle(){
         type = "Rectangle";
-    }
-
-
-    public void draw(GraphicsContext context){
-
     }
 
     @Override
