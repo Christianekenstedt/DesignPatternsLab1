@@ -3,6 +3,9 @@ import Model.IDrawing;
 import Model.shapes.FillableShape;
 import Model.shapes.Rectangle;
 import Model.shapes.Shape;
+import com.sun.deploy.util.StringUtils;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -67,12 +71,32 @@ public class Controller {
             double width = event.getX() - startX;
             double height = event.getY() - startY;
 
+            double newX, newY, newW, newH;
+
+            if(width < 0){
+                newX = startX + width;
+                newW = Math.abs(width);
+            }
+            else{
+                newX = startX;
+                newW = width;
+            }
+
+            if(height < 0){
+                newY = startY + height;
+                newH = Math.abs(height);
+            }
+            else{
+                newY = startY;
+                newH = height;
+            }
+
             Shape shape = selectedShape.clone();
 
-            shape.setX(startX);
-            shape.setY(startY);
-            shape.setWidth(width);
-            shape.setHeight(height);
+            shape.setX(newX);
+            shape.setY(newY);
+            shape.setWidth(newW);
+            shape.setHeight(newH);
 
             drawing.render(canvas);
 
@@ -102,30 +126,32 @@ public class Controller {
             Shape shape = selectedShape.clone();
 
             //TODO:do width/pos conversions here instead
-            /**
-             * if(getWidth() < 0){
-             newX = getX() + getWidth();
-             newW = Math.abs(getWidth());
+
+            double newX, newY, newW, newH;
+
+             if(width < 0){
+                 newX = startX + width;
+                 newW = Math.abs(width);
              }
              else{
-             newX = getX();
-             newW = getWidth();
+                 newX = startX;
+                 newW = width;
              }
 
-             if(getHeight() < 0){
-             newY = getY() + getHeight();
-             newH = Math.abs(getHeight());
+             if(height < 0){
+                newY = startY + height;
+                newH = Math.abs(height);
              }
              else{
-             newY = getY();
-             newH = getHeight();
+                newY = startY;
+                newH = height;
              }
-             */
 
-            shape.setX(startX);
-            shape.setY(startY);
-            shape.setWidth(width);
-            shape.setHeight(height);
+
+            shape.setX(newX);
+            shape.setY(newY);
+            shape.setWidth(newW);
+            shape.setHeight(newH);
 
             drawing.addShape(shape);
 
@@ -146,6 +172,7 @@ public class Controller {
         colorLabel.setMinWidth(propertiesView.getWidth()/2);
         ColorPicker cp = new ColorPicker();
         cp.setPromptText("Color");
+        cp.setValue(Color.BLACK);
         colorBox.getChildren().add(colorLabel);
         colorBox.getChildren().add(cp);
 
@@ -155,6 +182,7 @@ public class Controller {
         lineWidthLabel.setText("Line width");
         lineWidthLabel.setMinWidth(propertiesView.getWidth()/2);
         TextField lineWidthField = new TextField();
+        lineWidthField.setText("1");
         lineBox.getChildren().add(lineWidthLabel);
         lineBox.getChildren().add(lineWidthField);
 
@@ -162,16 +190,31 @@ public class Controller {
         propertiesView.getChildren().add(colorBox);
         propertiesView.getChildren().add(lineBox);
 
+        //set handlers
+
+
+        cp.valueProperty().addListener((observable, oldValue, newValue) -> shape.setColor(newValue));
+
+        lineWidthField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+                double val = Double.parseDouble(newValue);
+                shape.setLineWidth(val);
+            }catch(Exception e){
+                lineWidthField.setText(oldValue);
+            }
+        });
+
+
         //fillable shapes
 
         if(shape instanceof FillableShape){
-
             HBox fillColorBox = new HBox();
             Label fillColorLabel = new Label();
             fillColorLabel.setText("Fill color");
             fillColorLabel.setMinWidth(propertiesView.getWidth()/2);
             ColorPicker fcp = new ColorPicker();
             fcp.setPromptText("Fill Color");
+            fcp.setValue(Color.WHITE);
             fillColorBox.getChildren().add(fillColorLabel);
             fillColorBox.getChildren().add(fcp);
 
@@ -185,6 +228,14 @@ public class Controller {
 
             propertiesView.getChildren().add(fillColorBox);
             propertiesView.getChildren().add(fillBox);
+
+            //Set handlers
+
+            FillableShape fShape = (FillableShape) shape;
+
+            fcp.valueProperty().addListener((observable, oldValue, newValue) -> fShape.setFillColor(newValue));
+            cb.selectedProperty().addListener((observable, oldValue, newValue) -> fShape.setFill(newValue));
+
         }
     }
 

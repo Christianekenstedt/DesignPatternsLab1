@@ -18,6 +18,5 @@ public class Line extends Shape  {
         super.Draw(context); //generic draw-stuff
 
         context.strokeLine(getX(), getY(), getX()+getWidth(), getY()+getHeight());
-
     }
 }

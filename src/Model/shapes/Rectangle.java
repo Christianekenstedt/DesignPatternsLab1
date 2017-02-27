@@ -15,26 +15,6 @@ public class Rectangle extends FillableShape  {
     public void drawShape(GraphicsContext graphicsContext) {
         super.Draw(graphicsContext);
 
-        double newX, newY, newW, newH;
-
-        if(getWidth() < 0){
-            newX = getX() + getWidth();
-            newW = Math.abs(getWidth());
-        }
-        else{
-            newX = getX();
-            newW = getWidth();
-        }
-
-        if(getHeight() < 0){
-            newY = getY() + getHeight();
-            newH = Math.abs(getHeight());
-        }
-        else{
-            newY = getY();
-            newH = getHeight();
-        }
-
-        graphicsContext.strokeRect(newX, newY, newW, newH);
+        graphicsContext.strokeRect(getX(), getY(), getWidth(), getHeight());
     }
 }

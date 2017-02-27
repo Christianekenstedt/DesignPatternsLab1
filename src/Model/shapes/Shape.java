@@ -2,6 +2,7 @@ package Model.shapes;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  * Created by Anton on 2017-02-21.
@@ -14,8 +15,8 @@ public abstract class Shape implements Cloneable{
     protected String type;
 
 
-    private Color color;
-    private double lineWidth;
+    private Color color = Color.BLACK;
+    private double lineWidth = 1;
 
     public Shape clone(){
         try {
@@ -40,7 +41,9 @@ public abstract class Shape implements Cloneable{
 
 
     public void Draw(GraphicsContext graphicsContext){
-        //generic draw stuff
+        graphicsContext.setLineWidth(lineWidth);
+
+        graphicsContext.setStroke(Paint.valueOf(color.toString()));
     }
 
     public abstract void drawShape(GraphicsContext graphicsContext);
