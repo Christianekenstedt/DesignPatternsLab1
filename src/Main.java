@@ -1,6 +1,5 @@
-package Model;
-
 import Controller.Controller;
+import Model.IDrawing;
 import Model.shapes.Shape;
 import Model.shapes.ShapeCache;
 import javafx.application.Application;

@@ -48,10 +48,13 @@ public class Controller {
 
     public void addShapesToShapeView(List<Shape> shapeList){
         for(Shape s : shapeList){
-            Button btn = new Button();
-            btn.setText(s.getType());
-            shapeView.getChildren().add(btn);
-        }
+                Button btn = new Button();
+                btn.setText(s.getType());
+                shapeView.getChildren().add(btn);
+
+
+
+            }
     }
 
 }
