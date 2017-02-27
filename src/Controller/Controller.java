@@ -59,6 +59,28 @@ public class Controller {
     }
 
     @FXML
+    void onMouseDragged(MouseEvent event){
+        if(selectedShape != null){
+            double width = event.getX() - startX;
+            double height = event.getY() - startY;
+
+            Shape shape = selectedShape.clone();
+
+            shape.setX(startX);
+            shape.setY(startY);
+            shape.setWidth(width);
+            shape.setHeight(height);
+
+            drawing.render(canvas);
+
+            shape.drawShape(canvas.getGraphicsContext2D());
+
+        }else{
+            System.out.println("No shape is selected...");
+        }
+    }
+
+    @FXML
     void drawShapeStart(MouseEvent event){
         if(selectedShape != null) {
             startX = event.getX();

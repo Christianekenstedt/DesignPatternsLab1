@@ -1,6 +1,7 @@
 package Model;
 
 import Model.shapes.Shape;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -9,5 +10,5 @@ import javafx.scene.canvas.GraphicsContext;
 public interface IDrawing {
     void addShape(Shape shape);
     void removeShape(Shape shape);
-    void render(GraphicsContext graphicsContext);
+    void render(Canvas canvas);
 }

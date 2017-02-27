@@ -48,6 +48,6 @@
       <VBox fx:id="propertiesView" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <Canvas fx:id="canvas" height="780.0" onMousePressed="#drawShapeStart" onMouseReleased="#drawShapeDone" width="1000.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="780.0" onMouseDragged="#onMouseDragged" onMousePressed="#drawShapeStart" onMouseReleased="#drawShapeDone" width="1000.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

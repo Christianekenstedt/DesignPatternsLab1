@@ -21,7 +21,7 @@ public class DrawingObserver implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if(o == drawing){
-            drawing.render(canvas.getGraphicsContext2D());
+            drawing.render(canvas);
         }
     }
 }

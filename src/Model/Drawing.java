@@ -1,6 +1,7 @@
 package Model;
 
 import Model.shapes.Shape;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
@@ -30,11 +31,11 @@ public class Drawing extends Observable implements IDrawing {
         notifyObservers();
     }
 
-    /***
-     * Should this class be placed here?
-     * @param context
-     */
-    public void render(GraphicsContext context){
+
+    public void render(Canvas canvas){
+        GraphicsContext context = canvas.getGraphicsContext2D();
+        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         for(Shape s: shapes){
             s.drawShape(context);
         }
