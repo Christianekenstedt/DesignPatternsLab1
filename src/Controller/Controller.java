@@ -48,13 +48,11 @@ public class Controller {
 
     public void addShapesToShapeView(List<Shape> shapeList){
         for(Shape s : shapeList){
-                Button btn = new Button();
-                btn.setText(s.getType());
-                shapeView.getChildren().add(btn);
-
-
-
-            }
+            Button btn = new Button();
+            btn.setText(s.getType());
+            btn.setMaxWidth(Double.MAX_VALUE); // sets the with of the button to fill the VBox width.
+            shapeView.getChildren().add(btn);
+        }
     }
 
 }
