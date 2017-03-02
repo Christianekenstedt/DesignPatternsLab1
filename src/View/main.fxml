@@ -19,8 +19,8 @@
         <menus>
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="Open" />
-                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="Save" />
+              <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openDrawing" text="Open" />
+                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveDrawing" text="Save" />
                   <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="Quit" />
             </items>
           </Menu>
@@ -48,6 +48,6 @@
       <VBox fx:id="propertiesView" prefHeight="775.0" prefWidth="150.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <Canvas fx:id="canvas" height="780.0" onMouseDragged="#onMouseDragged" onMousePressed="#drawShapeStart" onMouseReleased="#drawShapeDone" width="949.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="780.0" onMouseDragged="#onMouseDragged" onMousePressed="#canvasClicked" onMouseReleased="#canvasReleased" width="949.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

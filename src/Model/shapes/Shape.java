@@ -4,18 +4,20 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.io.Serializable;
+
 /**
  * Created by Anton on 2017-02-21.
  */
-public abstract class Shape implements Cloneable{
+public abstract class Shape implements Cloneable, Serializable{
 
-    private double X, Y, width, height;
+    private double X1, Y1, X2, Y2;
 
     private String id;
     protected String type;
 
 
-    private Color color = Color.BLACK;
+    private String color = Color.BLACK.toString();
     private double lineWidth = 1;
 
     public Shape clone(){
@@ -42,49 +44,50 @@ public abstract class Shape implements Cloneable{
 
     public void Draw(GraphicsContext graphicsContext){
         graphicsContext.setLineWidth(lineWidth);
-
-        graphicsContext.setStroke(Paint.valueOf(color.toString()));
+        graphicsContext.setStroke(Paint.valueOf(color));
     }
 
     public abstract void drawShape(GraphicsContext graphicsContext);
 
-    public double getX() {
-        return X;
+    public abstract boolean selectShape(double x, double y);
+
+    public double getX1() {
+        return X1;
     }
 
-    public void setX(double x) {
-        X = x;
+    public void setX1(double x1) {
+        X1 = x1;
     }
 
-    public double getY() {
-        return Y;
+    public double getY1() {
+        return Y1;
     }
 
-    public void setY(double y) {
-        Y = y;
+    public void setY1(double y1) {
+        Y1 = y1;
     }
 
-    public double getWidth() {
-        return width;
+    public double getX2() {
+        return X2;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
+    public void setX2(double x2) {
+        X2 = x2;
     }
 
-    public double getHeight() {
-        return height;
+    public double getY2() {
+        return Y2;
     }
 
-    public void setHeight(double height) {
-        this.height = height;
+    public void setY2(double y2) {
+        Y2 = y2;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 

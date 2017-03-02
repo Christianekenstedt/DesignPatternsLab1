@@ -5,10 +5,12 @@ import Model.IDrawing;
 import Model.shapes.Shape;
 import Model.shapes.ShapeCache;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -29,8 +31,13 @@ public class Main extends Application {
         Controller controller = fxmlLoader.getController();
 
 
+        Scene scene = new Scene(root, 1200, 800);
+
         primaryStage.setTitle("Painter pr0 v0.4");
-        primaryStage.setScene(new Scene(root, 1200, 800));
+        primaryStage.setScene(scene);
+
+
+
 
         //Models
 
@@ -45,6 +52,7 @@ public class Main extends Application {
 
         //Initialize controller
 
+        controller.setStage(primaryStage);
         controller.setDrawing(drawing);
         controller.addShapesToShapeView(shapeCache.getShapes());
 

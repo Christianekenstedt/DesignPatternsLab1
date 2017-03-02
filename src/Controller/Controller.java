@@ -1,6 +1,8 @@
 package Controller;
+import Model.Drawing;
 import Model.IDrawing;
 import Model.shapes.FillableShape;
+import Model.shapes.Group;
 import Model.shapes.Rectangle;
 import Model.shapes.Shape;
 import com.sun.deploy.util.StringUtils;
@@ -15,14 +17,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
 
+    private Stage stage;
+
+    private Tools selectedTool;
+
     private IDrawing drawing;
     private Shape selectedShape;
+
+    private ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private double startX, startY;
 
@@ -62,58 +74,136 @@ public class Controller {
 
     @FXML
     void selectButtonClicked(ActionEvent event){
-        System.out.println("Hello");
+        selectedTool = Tools.SELECT;
+        System.out.println("Tool: SELECT");
     }
 
     @FXML
-    void onMouseDragged(MouseEvent event){
-        if(selectedShape != null){
-            double width = event.getX() - startX;
-            double height = event.getY() - startY;
+    void saveDrawing(){
+        System.out.println("Saving image...");
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Painter-Pr0 File", "*.ppr0");
+        fc.getExtensionFilters().add(extensionFilter);
+        File file = fc.showSaveDialog(stage);
 
-            double newX, newY, newW, newH;
+        if(file==null)
+            return;
 
-            if(width < 0){
-                newX = startX + width;
-                newW = Math.abs(width);
-                newH = height * -1;
-                newY = event.getY();
-                System.out.println("bajs");
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
-            }
-            else{
-                newX = startX;
-                newW = width;
-            }
+            objectOutputStream.writeObject(drawing);
+            objectOutputStream.close();
 
-            if(height < 0){
-                newY = startY + height;
-                newH = Math.abs(height);
-                newW = width*-1;
-                newX = event.getX();
-            }
-            else {
-                newY = startY;
-                newH = height;
-            }
-            Shape shape = selectedShape.clone();
-
-            shape.setX(newX);
-            shape.setY(newY);
-            shape.setWidth(newW);
-            shape.setHeight(newH);
-
-            drawing.render(canvas);
-
-            shape.drawShape(canvas.getGraphicsContext2D());
-
-        }else{
-            System.out.println("No shape is selected...");
+        }catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
-    void drawShapeStart(MouseEvent event){
+    void openDrawing(){
+        System.out.println("Loading image...");
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Painter-Pr0 File", "*.ppr0");
+        fc.getExtensionFilters().add(extensionFilter);
+        File file = fc.showOpenDialog(stage);
+
+        if(file==null)
+            return;
+
+        try {
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+
+            drawing = (Drawing)in.readObject();
+
+            drawing.render(canvas);
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void onMouseDragged(MouseEvent event){
+        switch(selectedTool){
+            case SELECT:
+                break;
+            case SHAPE:
+                drawShapeDragging(event);
+                break;
+            case GROUP:
+                break;
+            default:
+                break;
+        }
+    }
+
+    /***
+     * Canvas was clicked.
+     * @param event
+     */
+    @FXML
+    void canvasClicked(MouseEvent event){
+        switch(selectedTool){
+            case SELECT:
+                selectShape(event);
+                break;
+            case SHAPE:
+                drawShapeStart(event);
+                break;
+            case GROUP:
+                break;
+            default:
+                break;
+        }
+    }
+
+    /***
+     * Mouse was released from canvas
+     * @param event
+     */
+    @FXML
+    void canvasReleased(MouseEvent event){
+        switch(selectedTool){
+            case SELECT:
+                break;
+            case SHAPE:
+                drawShapeDone();
+                break;
+            case GROUP:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void selectShape(MouseEvent event){
+
+        Shape s = drawing.selectShape(event.getX(), event.getY());
+
+        if(s==null)
+            return;
+
+        System.out.println("We selected a " + s.getType());
+
+        if(event.isControlDown()){
+            selectedShapes.add(s);
+
+        }else{
+            selectedShapes.clear();
+            selectedShape = s;
+            viewPropertiesOf(s);
+        }
+
+
+
+    }
+
+    private void drawShapeStart(MouseEvent event){
         if(selectedShape != null) {
             startX = event.getX();
             startY = event.getY();
@@ -122,49 +212,46 @@ public class Controller {
         }
     }
 
-    @FXML
-    void drawShapeDone(MouseEvent event){
+    private void drawShapeDragging(MouseEvent event){
         if(selectedShape != null){
-            double width = event.getX() - startX;
-            double height = event.getY() - startY;
+            selectedShape.setX1(startX);
+            selectedShape.setY1(startY);
+            selectedShape.setX2(event.getX());
+            selectedShape.setY2(event.getY());
 
-            Shape shape = selectedShape.clone();
+            drawing.render(canvas);
 
-            //TODO:do width/pos conversions here instead;
-            double newX, newY, newW, newH;
-
-             if(width < 0){
-                 newX = startX + width;
-                 newW = Math.abs(width);
-             }
-             else{
-                 newX = startX;
-                 newW = width;
-             }
-
-             if(height < 0){
-                newY = startY + height;
-                newH = Math.abs(height);
-             }
-             else{
-                newY = startY;
-                newH = height;
-             }
-
-
-            shape.setX(newX);
-            shape.setY(newY);
-            shape.setWidth(newW);
-            shape.setHeight(newH);
-
-            drawing.addShape(shape);
-
-        }else{
-            System.out.println("No shape is selected...");
+            selectedShape.drawShape(canvas.getGraphicsContext2D());
         }
     }
 
-    void viewPropertiesOf(Shape shape){
+
+    private void drawShapeDone(){
+        if(selectedShape != null){
+
+            Shape shape = selectedShape.clone();
+
+            drawing.addShape(shape);
+        }
+    }
+
+    private void createGroup(Shape s){
+        Group grp = (Group)s;
+
+        for(Shape sh: selectedShapes){
+            System.out.println(sh.getType());
+        }
+
+        drawing.removeShapes(selectedShapes);
+
+        grp.setChildren(selectedShapes);
+
+        drawing.addShape(grp);
+
+        selectedShapes.clear();
+    }
+
+    private void viewPropertiesOf(Shape shape){
 
         propertiesView.getChildren().clear();
 
@@ -197,12 +284,16 @@ public class Controller {
         //set handlers
 
 
-        cp.valueProperty().addListener((observable, oldValue, newValue) -> shape.setColor(newValue));
+        cp.valueProperty().addListener((observable, oldValue, newValue) -> {
+            shape.setColor(newValue.toString());
+            drawing.render(canvas);
+        });
 
         lineWidthField.textProperty().addListener((observable, oldValue, newValue) -> {
             try{
                 double val = Double.parseDouble(newValue);
                 shape.setLineWidth(val);
+                drawing.render(canvas);
             }catch(Exception e){
                 lineWidthField.setText(oldValue);
             }
@@ -237,8 +328,14 @@ public class Controller {
 
             FillableShape fShape = (FillableShape) shape;
 
-            fcp.valueProperty().addListener((observable, oldValue, newValue) -> fShape.setFillColor(newValue));
-            cb.selectedProperty().addListener((observable, oldValue, newValue) -> fShape.setFill(newValue));
+            fcp.valueProperty().addListener((observable, oldValue, newValue) -> {
+                fShape.setFillColor(newValue.toString());
+                drawing.render(canvas);
+            });
+            cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                fShape.setFill(newValue);
+                drawing.render(canvas);
+            });
 
         }
     }
@@ -268,7 +365,16 @@ public class Controller {
             btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    selectedShape = s;
+
+                    if(s.getType().equals("Group")){
+                        createGroup(s.clone());
+                        selectedTool = Tools.GROUP;
+                    }else{
+                        System.out.println("Tool: SHAPE");
+                        selectedTool = Tools.SHAPE;
+                        selectedShape = s;
+                    }
+
                     viewPropertiesOf(s);
                 }
             });
@@ -278,5 +384,16 @@ public class Controller {
 
     public Canvas getCanvas(){
         return canvas;
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
+    }
+
+
+    public enum Tools{
+        SELECT,
+        SHAPE,
+        GROUP
     }
 }
