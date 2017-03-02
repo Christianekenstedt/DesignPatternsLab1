@@ -25,9 +25,6 @@ public class CmdRedo implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println("Re-doing shape ");
-        for(Shape s: shapes)
-            System.out.println("dddd  " + s.getType());
         this.drawing.addShapes(shapes);
     }
 }
