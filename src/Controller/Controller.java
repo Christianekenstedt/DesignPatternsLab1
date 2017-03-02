@@ -206,8 +206,9 @@ public class Controller {
 
         for(Shape s: selectedShapes){
             Shape ss = s.clone();
-            ss.setColor(Color.LIGHTGREEN.toString());
-            ss.setLineWidth(5);
+            ss.setColor(Color.LIGHTBLUE.toString());
+            ss.setLineWidth(3);
+            ss.setDashed(true);
             ss.drawShape(canvas.getGraphicsContext2D());
         }
     }

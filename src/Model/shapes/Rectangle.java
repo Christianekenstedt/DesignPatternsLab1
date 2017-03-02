@@ -19,7 +19,12 @@ public class Rectangle extends FillableShape  {
     public void drawShape(GraphicsContext graphicsContext) {
         super.Draw(graphicsContext);
 
-            calcDimensions();
+        calcDimensions();
+
+        if(isDashed())
+            graphicsContext.setLineDashes(10);
+        else
+            graphicsContext.setLineDashes();
 
         if(isFill())
             graphicsContext.fillRect(getX1(), getY1(), width, height);

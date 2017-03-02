@@ -19,6 +19,7 @@ public abstract class Shape implements Cloneable, Serializable{
 
     private String color = Color.BLACK.toString();
     private double lineWidth = 1;
+    private boolean isDashed = false;
 
     public Shape clone(){
         try {
@@ -97,5 +98,13 @@ public abstract class Shape implements Cloneable, Serializable{
 
     public void setLineWidth(double lineWidth) {
         this.lineWidth = lineWidth;
+    }
+
+    public boolean isDashed() {
+        return isDashed;
+    }
+
+    public void setDashed(boolean dashed) {
+        isDashed = dashed;
     }
 }
