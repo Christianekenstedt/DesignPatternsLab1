@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface IDrawing {
     void addShape(Shape shape);
+    void addShapes(List<Shape> shapes);
     void removeShape(Shape shape);
     void removeShapes(List<Shape> shapes);
     void render(Canvas canvas);

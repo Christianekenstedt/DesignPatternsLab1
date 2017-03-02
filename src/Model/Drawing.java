@@ -1,5 +1,8 @@
 package Model;
 
+import Model.commands.CmdRedo;
+import Model.commands.CmdUndo;
+import Model.commands.CommandManager;
 import Model.shapes.Shape;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,6 +23,15 @@ public class Drawing extends Observable implements IDrawing, Serializable{
     public void addShape(Shape shape) {
         shapes.add(shape);
         System.out.println("Shape added: (" + shape.getX1() + ", " + shape.getY1() + ", " + shape.getX2() + ", " + shape.getY2() +")");
+
+        setChanged();
+        notifyObservers();
+    }
+
+    @Override
+    public void addShapes(List<Shape> shapesToAdd) {
+        shapes.addAll(shapesToAdd);
+
 
         setChanged();
         notifyObservers();

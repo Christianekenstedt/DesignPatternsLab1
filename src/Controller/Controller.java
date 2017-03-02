@@ -1,6 +1,9 @@
 package Controller;
 import Model.Drawing;
 import Model.IDrawing;
+import Model.commands.CmdRedo;
+import Model.commands.CmdUndo;
+import Model.commands.CommandManager;
 import Model.shapes.FillableShape;
 import Model.shapes.Group;
 import Model.shapes.Shape;
@@ -32,6 +35,8 @@ public class Controller {
     private ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private double startX, startY;
+
+    private CommandManager commandManager = new CommandManager();
 
 
     @FXML
@@ -66,6 +71,18 @@ public class Controller {
 
     @FXML
     private Menu fileMenu;
+
+    @FXML
+    void undoPressed(ActionEvent event){
+        commandManager.executeCommand();
+    }
+
+    @FXML
+    void onDeleteShape(ActionEvent event){
+        drawing.removeShape(selectedShape);
+        commandManager.addCommand(new CmdRedo(drawing, selectedShape));
+        selectedShape = null;
+    }
 
     @FXML
     void selectButtonClicked(ActionEvent event){
@@ -239,26 +256,27 @@ public class Controller {
     private void drawShapeDone(){
         if(selectedShape != null){
 
-            Shape shape = selectedShape.clone();
-
-            drawing.addShape(shape);
+            drawing.addShape(selectedShape);
+            commandManager.addCommand(new CmdUndo(drawing, selectedShape));
+            selectedShape = null;
         }
     }
 
     private void createGroup(Shape s){
+
         Group grp = (Group)s;
 
-        for(Shape sh: selectedShapes){
-            System.out.println(sh.getType());
-        }
+        grp.setChildren(selectedShapes);
+        drawing.addShape(grp);
+        commandManager.addCommand(new CmdUndo(drawing, grp));
 
         drawing.removeShapes(selectedShapes);
-
-        grp.setChildren(selectedShapes);
-
-        drawing.addShape(grp);
+        ArrayList<Shape> deletedShapes = new ArrayList<>();
+        deletedShapes.addAll(selectedShapes);
+        commandManager.addCommand(new CmdRedo(drawing, deletedShapes));
 
         selectedShapes.clear();
+
         drawSelectedShapes();
     }
 
@@ -376,17 +394,17 @@ public class Controller {
             btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-
-                    if(s.getType().equals("Group")){
-                        createGroup(s.clone());
+                    Shape clonedShape = s.clone();
+                    if(clonedShape.getType().equals("Group")){
+                        createGroup(clonedShape);
                         selectedTool = Tools.GROUP;
                     }else{
                         System.out.println("Tool: SHAPE");
                         selectedTool = Tools.SHAPE;
-                        selectedShape = s;
+                        selectedShape = clonedShape;
                     }
 
-                    viewPropertiesOf(s);
+                    viewPropertiesOf(clonedShape);
                 }
             });
         }
