@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by Anton on 2017-02-21.
+ * Holds prototype shapes.
  */
 public class ShapeCache {
 

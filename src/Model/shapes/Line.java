@@ -19,6 +19,11 @@ public class Line extends Shape  {
         context.strokeLine(getX1(), getY1(), getX2(), getY2());
     }
 
+    /**
+     * @param x
+     * @param y
+     * @return true if this shape is located at the given x,y coordinates.
+     */
     @Override
     public boolean selectShape(double x, double y) {
 

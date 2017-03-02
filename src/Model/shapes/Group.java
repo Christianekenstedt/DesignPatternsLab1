@@ -20,12 +20,6 @@ public class Group extends FillableShape  {
     @Override
     public void drawShape(GraphicsContext graphicsContext) {
 
-        System.out.println("children: " + children.size());
-
-        for(Shape s : children){
-            System.out.println("Child: " + s.getType());
-        }
-
         for(Shape s: children){
             s.drawShape(graphicsContext);
         }
@@ -41,7 +35,6 @@ public class Group extends FillableShape  {
     }
 
     public void setChildren(List<Shape> nodes){
-        System.out.println("Adding # of nodes: " + nodes.size());
         children.addAll(nodes);
     }
 

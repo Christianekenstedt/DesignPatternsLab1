@@ -3,11 +3,7 @@ import Model.Drawing;
 import Model.IDrawing;
 import Model.shapes.FillableShape;
 import Model.shapes.Group;
-import Model.shapes.Rectangle;
 import Model.shapes.Shape;
-import com.sun.deploy.util.StringUtils;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,7 +17,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,8 +180,11 @@ public class Controller {
 
         Shape s = drawing.selectShape(event.getX(), event.getY());
 
-        if(s==null)
+        if(s==null){
+            selectedShapes.clear();
+            drawSelectedShapes();
             return;
+        }
 
         System.out.println("We selected a " + s.getType());
 
@@ -199,8 +197,19 @@ public class Controller {
             viewPropertiesOf(s);
         }
 
+        drawSelectedShapes();
+    }
 
+    private void drawSelectedShapes(){
 
+        drawing.render(canvas);
+
+        for(Shape s: selectedShapes){
+            Shape ss = s.clone();
+            ss.setColor(Color.LIGHTGREEN.toString());
+            ss.setLineWidth(5);
+            ss.drawShape(canvas.getGraphicsContext2D());
+        }
     }
 
     private void drawShapeStart(MouseEvent event){
@@ -249,6 +258,7 @@ public class Controller {
         drawing.addShape(grp);
 
         selectedShapes.clear();
+        drawSelectedShapes();
     }
 
     private void viewPropertiesOf(Shape shape){
