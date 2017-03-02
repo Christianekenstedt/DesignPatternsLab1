@@ -1,7 +1,5 @@
 package Model.commands;
 
-import Model.ICommand;
-
 import java.util.LinkedList;
 
 /**

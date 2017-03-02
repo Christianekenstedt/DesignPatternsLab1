@@ -1,6 +1,5 @@
 package Model.commands;
 
-import Model.ICommand;
 import Model.IDrawing;
 import Model.shapes.Shape;
 

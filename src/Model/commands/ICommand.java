@@ -1,4 +1,4 @@
-package Model;
+package Model.commands;
 
 import Model.shapes.Shape;
 
