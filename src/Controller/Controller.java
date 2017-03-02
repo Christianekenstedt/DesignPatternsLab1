@@ -76,6 +76,10 @@ public class Controller {
             if(width < 0){
                 newX = startX + width;
                 newW = Math.abs(width);
+                newH = height * -1;
+                newY = event.getY();
+                System.out.println("bajs");
+
             }
             else{
                 newX = startX;
@@ -85,12 +89,13 @@ public class Controller {
             if(height < 0){
                 newY = startY + height;
                 newH = Math.abs(height);
+                newW = width*-1;
+                newX = event.getX();
             }
-            else{
+            else {
                 newY = startY;
                 newH = height;
             }
-
             Shape shape = selectedShape.clone();
 
             shape.setX(newX);
@@ -125,8 +130,7 @@ public class Controller {
 
             Shape shape = selectedShape.clone();
 
-            //TODO:do width/pos conversions here instead
-
+            //TODO:do width/pos conversions here instead;
             double newX, newY, newW, newH;
 
              if(width < 0){
